@@ -100,6 +100,7 @@ describe('total likes', () => {
     expect(result).toBe(0)
   })
 })
+
 describe('test mostBlogs', () => {
   test(`when list has ${sixBlogs.length} blogs`, () => {
     const result = listHelper.mostBlogs(sixBlogs)
@@ -113,3 +114,14 @@ describe('test mostBlogs', () => {
 })
 
 
+describe('test mostLikes', () => {
+  test(`when list has ${sixBlogs.length} blogs`, () => {
+    const result = listHelper.mostLikes(sixBlogs)
+    expect(result).toEqual({ 'author': 'Edsger W. Dijkstra', 'likes': 17 })
+  })
+
+  test(`when list has ${[].length} blogs`, () => {
+    const result = listHelper.mostLikes([])
+    expect(result).toEqual({ })
+  })
+})
