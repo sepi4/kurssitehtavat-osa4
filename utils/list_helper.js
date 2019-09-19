@@ -73,7 +73,7 @@ const mostBlogs = blogs => {
       max = objAuthors[x]
     }
   })
-  return {
+  return name === undefined ? {} : {
     author: name,
     blogs: max
   }

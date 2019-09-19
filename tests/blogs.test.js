@@ -109,7 +109,7 @@ describe('test mostBlogs', () => {
 
   test(`when list has ${[].length} blogs`, () => {
     const result = listHelper.mostBlogs([])
-    expect(result).toEqual({ 'author': undefined, 'blogs': 0 })
+    expect(result).toEqual({})
   })
 })
 
@@ -122,6 +122,6 @@ describe('test mostLikes', () => {
 
   test(`when list has ${[].length} blogs`, () => {
     const result = listHelper.mostLikes([])
-    expect(result).toEqual({ })
+    expect(result).toEqual({})
   })
 })

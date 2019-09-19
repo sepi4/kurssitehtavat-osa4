@@ -6,15 +6,17 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const middleware = require('./utils/middleware')
 
+const logger = require('./utils/logger')
+
 
 const blogsRouter = require('./controllers/blogs')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
   .then(result => {
-    console.log('yhteys tietokantaan saatu')
+    logger.info('yhteys tietokantaan saatu')
   })
   .catch(err => {
-    console.log('virhe yhteysotossa tietokantaan', err.message)
+    logger.error('virhe yhteysotossa tietokantaan', err.message)
   })
 
 app.use(cors())
