@@ -79,6 +79,50 @@ test(`author of one of the blogs is ${initialBlogs[1].author}`, async () => {
   expect(authors).toContain(initialBlogs[1].author)
 })
 
+test(`author of one of the blogs is ${initialBlogs[1].author}`, async () => {
+  const response = await api.get('/api/blogs')
+  const authors = response.body.map(r => r.author)
+  expect(authors).toContain(initialBlogs[1].author)
+})
+
+test('check that  "blog.id" is defined', async () => {
+  const response = await api.get('/api/blogs')
+  const firstBlog = response.body[0]
+  expect(firstBlog.id).toBeDefined()
+})
+
+test('add blog, check new length', async () => {
+  const newBlog = {
+    title: 'Kissa Istuu',
+    author: 'Vesa Lappalainen',
+    url: 'www.jyu.fi',
+    likes: 99,
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    // .expect(201)
+    // .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body.length).toBe(initialBlogs.length + 1)
+
+})
+
+test('add blog, check and new containing ', async () => {
+  const newBlog = {
+    title: 'Kissa Istuu',
+    author: 'Vesa Lappalainen',
+    url: 'www.jyu.fi',
+    likes: 99,
+  }
+  await api.post('/api/blogs').send(newBlog)
+  const response = await api.get('/api/blogs')
+
+  const titles = response.body.map(blog => blog.title)
+  expect(titles).toContain(newBlog.title)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
