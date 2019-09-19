@@ -33,24 +33,55 @@ const favoriteBlog = blogs => {
     : blog
 }
 
-// const mostBlogs = blogs => {
-//   const objAuthors = {}
-//   blogs.forEach(a => {
-//     if (objAuthors[a.author] === undefined) {
-//       objAuthors[a.author] = 1
-//     }
-//     else {
-//       objAuthors[a.author] += 1
-//     }
-//   })
-  
-//   Object.keys(objAuthors)
-//   return objAuthors
-// }
+const mostBlogs = blogs => {
+  const objAuthors = {}
+  blogs.forEach(a => {
+    if (objAuthors[a.author] === undefined) {
+      objAuthors[a.author] = 1
+    }
+    else {
+      objAuthors[a.author] += 1
+    }
+  })
+
+
+  // const startValue = {
+  //   author: undefined,
+  //   blogs: 0,
+  // }
+  // const reducer = (pre, cur) => {
+  //   if (objAuthors[cur] > pre.blogs) {
+  //     return {
+  //       author: cur,
+  //       blogs: objAuthors[cur],
+  //     }
+  //   }
+  //   else {
+  //     return pre
+  //   }
+  // }
+  // return Object.keys(objAuthors).reduce(
+  //   reducer,
+  //   startValue,
+  // )
+
+  let max = 0
+  let name = undefined
+  Object.keys(objAuthors).forEach(x => {
+    if (objAuthors[x] > max) {
+      name = x
+      max = objAuthors[x]
+    }
+  })
+  return {
+    author: name,
+    blogs: max
+  }
+}
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  // mostBlogs,
+  mostBlogs,
 }

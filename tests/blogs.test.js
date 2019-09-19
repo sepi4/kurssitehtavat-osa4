@@ -100,9 +100,16 @@ describe('total likes', () => {
     expect(result).toBe(0)
   })
 })
-test(`when list has ${sixBlogs.length} blogs`, () => {
-  const result = listHelper.mostBlogs(sixBlogs)
-  expect(result).toBe(0)
+describe('test mostBlogs', () => {
+  test(`when list has ${sixBlogs.length} blogs`, () => {
+    const result = listHelper.mostBlogs(sixBlogs)
+    expect(result).toEqual({ 'author': 'Robert C. Martin', 'blogs': 3 })
+  })
+
+  test(`when list has ${[].length} blogs`, () => {
+    const result = listHelper.mostBlogs([])
+    expect(result).toEqual({ 'author': undefined, 'blogs': 0 })
+  })
 })
 
 
