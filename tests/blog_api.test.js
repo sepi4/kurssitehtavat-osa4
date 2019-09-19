@@ -123,6 +123,21 @@ test('add blog, check and new containing ', async () => {
   expect(titles).toContain(newBlog.title)
 })
 
+test('undefined likes should turn into 0', async () => {
+  const newBlog = {
+    title: 'Kissa Istuu',
+    author: 'Vesa Lappalainen',
+    url: 'www.jyu.fi',
+  }
+  const added = await api
+    .post('/api/blogs')
+    .send(newBlog)
+
+  const response = await api.get('/api/blogs')
+  const addedBlog = response.body.find(b => b.id === added.body.id)
+  expect(addedBlog.likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
