@@ -147,11 +147,18 @@ test('newBlog does not have url value', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
 
-  // const response = await api.get('/api/blogs')
-  // const addedBlog = response.body.find(b => b.id === added.body.id)
-  // expect(typeof addedBlog.url).toBe('string')
-  // expect(addedBlog.url.length).toBeGreaterThan(0)
+test('delete a blog', async () => {
+  const response = await api.get('/api/blogs')
+  const id =  response.body[0].id
+  await api
+    .delete(`/api/blogs/${id}`)
+    .expect(204)
+
+  const newResponse = await api.get('/api/blogs')
+  const newIdList = newResponse.body.map(b => b.id)
+  expect(newIdList).not.toContain(id)
 })
 
 afterAll(() => {
