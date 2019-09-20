@@ -138,6 +138,22 @@ test('undefined likes should turn into 0', async () => {
   expect(addedBlog.likes).toBe(0)
 })
 
+test('newBlog does not have url value', async () => {
+  const newBlog = {
+    author: 'Vesa Lappalainen',
+    likes: 11
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  // const response = await api.get('/api/blogs')
+  // const addedBlog = response.body.find(b => b.id === added.body.id)
+  // expect(typeof addedBlog.url).toBe('string')
+  // expect(addedBlog.url.length).toBeGreaterThan(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
