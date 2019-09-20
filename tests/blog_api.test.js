@@ -106,8 +106,9 @@ test('add blog, check new length', async () => {
 
   const response = await api.get('/api/blogs')
   expect(response.body.length).toBe(initialBlogs.length + 1)
-
 })
+
+
 
 test('add blog, check and new containing ', async () => {
   const newBlog = {
@@ -159,6 +160,28 @@ test('delete a blog', async () => {
   const newResponse = await api.get('/api/blogs')
   const newIdList = newResponse.body.map(b => b.id)
   expect(newIdList).not.toContain(id)
+})
+
+test('update a blog', async () => {
+  const response = await api.get('/api/blogs')
+  const id =  response.body[0].id
+  const blog = response.body[0]
+  // oldLikes = blog.likes
+  const newLikes = 99999
+  const newBody = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: newLikes
+  }
+  await api
+    .put(`/api/blogs/${id}`)
+    .send(newBody)
+    .expect(200)
+
+  const newResponse = await api.get('/api/blogs')
+  const updatedBlog = newResponse.body.find(b => b.id === id)
+  expect(updatedBlog.likes).toBe(newLikes)
 })
 
 afterAll(() => {
