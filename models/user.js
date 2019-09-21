@@ -13,6 +13,12 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 3,
   },
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog'
+    }
+  ],
 })
 
 userSchema.plugin(uniqueValidator)
@@ -25,5 +31,5 @@ userSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-
-module.exports = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+module.exports = User
