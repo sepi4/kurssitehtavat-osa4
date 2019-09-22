@@ -15,17 +15,14 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response, next) => {
   try {
-    const newBlog = request.body
-
     const token = request.token
-
     const decodedToken = jwt.verify(token, process.env.SECRET)
     if (!token || !decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
-
     const user = await User.findById(decodedToken.id)
 
+    const newBlog = request.body
     if (typeof newBlog.likes !== 'number') {
       newBlog.likes = 0
     }
@@ -53,10 +50,24 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  const id = request.params.id
   try {
-    await Blog.findByIdAndRemove(id)
-    response.status(204).end()
+    const token = request.token
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+
+    const blogId = request.params.id
+    const blog = await Blog.findById(blogId)
+
+    if (user && blog && user._id.toString() === blog.user.toString()) {
+      await Blog.findByIdAndRemove(blogId)
+      response.status(204).end()
+    }
+    else {
+      response.status(401).json({ error: 'user and blog IDs don not match' })
+    }
   }
   catch (exception) {
     next(exception)
